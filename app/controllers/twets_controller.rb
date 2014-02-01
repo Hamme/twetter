@@ -9,9 +9,14 @@ class TwetsController < ApplicationController
   #   @twets # => All twets defaultly shown to the authenticated user.
   #
   def index
-    get_twets
+    if params[:username]
+     # @user  = User.where(:username => params[:username])
+     # @twets = @user.all_twets
+      get_twets 
+    else
+      get_twets
+    end
   end
-
   # POST /twets
   #
   # Used to create a new twet for the authenticated user based on the data passed
