@@ -11,8 +11,8 @@ class Twet < ActiveRecord::Base
     where(:user_id => ids.flatten.compact.uniq).order('created_at DESC')
   end
 
-  #def content_with_links
-  #	User[:content] & " HI "		
-  #end	
+  def content_with_links
+  	self.content + 'Hi'		
+  end	
 
 end
