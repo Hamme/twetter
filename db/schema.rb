@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20131031152306) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "follows", force: true do |t|
     t.integer  "user_id"
     t.integer  "following_id"
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 20131031152306) do
     t.datetime "updated_at"
   end
 
-  add_index "follows", ["user_id", "following_id"], name: "index_follows_on_user_id_and_following_id"
+  add_index "follows", ["user_id", "following_id"], name: "index_follows_on_user_id_and_following_id", using: :btree
 
   create_table "twets", force: true do |t|
     t.integer  "user_id"
@@ -29,7 +32,7 @@ ActiveRecord::Schema.define(version: 20131031152306) do
     t.datetime "updated_at"
   end
 
-  add_index "twets", ["user_id"], name: "index_tweets_on_user_id"
+  add_index "twets", ["user_id"], name: "index_tweets_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -51,8 +54,8 @@ ActiveRecord::Schema.define(version: 20131031152306) do
     t.string   "username"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
 end
