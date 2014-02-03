@@ -2,6 +2,8 @@ class Twet < ActiveRecord::Base
   #include Rails.application.routes.url_helpers	
   belongs_to :user
 
+  has_many :retwets
+
   validates :content, :presence => true, :length => { :minimum => 2, :maximum => 140 }
   validates :user, :presence => true
 
@@ -9,7 +11,14 @@ class Twet < ActiveRecord::Base
   # most recent twet made.
   #
   def self.by_user_ids(*ids)
-    where(:user_id => ids.flatten.compact.uniq).order('created_at DESC')
+    [:flatten!, :compact!, :uniq!].each{ |meth| ids.send(meth) }
+    where(
+      arel_table[:user_id]
+      .in(ids)
+      .or(arel_table[:id].in(
+        Retwet.where(:user_id => ids).map(&:twet_id)
+      ))
+    ).order('created_at DESC')
   end
 
   #def content_with_links
