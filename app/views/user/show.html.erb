@@ -16,7 +16,7 @@
         <%= content_tag :small, "@"+twet.user.username, :class => 'text-muted pad-10 text-middle' %>
         <%= content_tag :small, twet.created_at.strftime("%b %-d"), :class => 'text-muted text-middle pull-right' %>
         <div class="clearfix"></div>
-        <%= content_tag :p, twet.content_with_links %>
+        <%= content_tag :p, twet.content.gsub(/@\w+/) {|s| link_to(s,user_twets_path(s.delete "@"))}.html_safe %>
       </li>
       <li><hr></li>
       <% end -%>
