@@ -21,4 +21,10 @@ class User < ActiveRecord::Base
   def all_twets
     Twet.by_user_ids(id, *follows.map(&:following_id))
   end
+
+  def gravatar
+    email_address = self.email.downcase
+    hash = Digest::MD5.hexdigest(email_address)
+    image_scr = "http://www.gravatar.com/avatar/#{hash}"
+  end
 end
